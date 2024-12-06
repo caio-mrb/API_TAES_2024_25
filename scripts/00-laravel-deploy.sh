@@ -11,5 +11,5 @@ php artisan route:cache
 echo "Running migrations..."
 php artisan migrate --force
 
-echo "Running seeders..."
-php artisan db:seed
+echo "Running seeders with language en_US..."
+SEED_LANGUAGE=en_US php artisan db:seed --force --no-interaction
