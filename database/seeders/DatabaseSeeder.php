@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         //DatabaseSeeder::$seedType = $this->command->choice('What is the size of seed data (choose "full" for publishing)?', ['small', 'full'], 0);
 
-        DatabaseSeeder::$seedLanguage = $this->command->choice('What is the language for users\' names?', ['en_US', 'pt_PT'], 0);
+        DatabaseSeeder::$seedLanguage = env('DB_SEED_LANGUAGE', 'en_US');
 
 
         DB::statement("SET foreign_key_checks=0");
