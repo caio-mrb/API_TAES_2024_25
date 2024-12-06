@@ -79,7 +79,17 @@ class GamesSeeder extends Seeder
             DB::table('games')->insert($games);
         }
         $this->fillAllMultiplayerGamesPlayed();
-        //game to add on day 13 (i think?)
+
+        //game to add on day 13
+        $this->command->info("Adding game to the day " . $now->format("Y-m-") . "13" . " on user 7");
+        $d = new Carbon($now->format("Y-m-") . "13");
+        $games = [];
+
+        for ($i = 0; $i < 100; $i++)
+            $games[] = $this->newGame(Carbon::parse($now->format("Y-m-") . "13"), $d, 7, null);
+
+        DB::table('games')->insert($games);
+
         $this->command->info("Setting winner to null on ALL uneded games or single player games");
         // DB::table('games')->whereNot('status', 'E')->update(['winner_user_id' => null]);
         // $this->command->info("Clearing winner_user_id for non ended multiplayer games");
