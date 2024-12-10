@@ -31,16 +31,19 @@ class GameController extends Controller
         $by = $request->query("by");
         if (!empty($by) && in_array($by, ["gameType", "time", "turns", "date"])) {
 
-            $convert = [
-                "date" => 'began_at',
-                "turns" => 'custom->user1',
-                "time" => 'total_time',
-                "gameType" => 'board_id',
-            ];
+            if ($by == "turns") {
+                $games->orderByRaw("CONVERT(JSON_EXTRACT(custom, '$.user1'), SIGNED) " . ($request->query("order") == "desc" ? "desc" : "asc"));
+            } else {
+                $convert = [
+                    "date" => 'began_at',
+                    "time" => 'total_time',
+                    "gameType" => 'board_id',
+                ];
 
-            $by = $convert[$by];
+                $by = $convert[$by];
 
-            $games->orderBy($by, $request->query("order") == "desc" ? "desc" : "asc");
+                $games->orderBy($by, $request->query("order") == "desc" ? "desc" : "asc");
+            }
         }
 
         return GameResource::collection($games->get());
